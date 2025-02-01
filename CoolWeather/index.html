@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>CoolWeather</title>
+        <link rel="stylesheet" href="style.css">
+        <style>
+            @import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap');
+            </style>
+    </head>
+    <body>
+
+        <div class="card">
+            <div class="search">
+                <input type="text" placeholder="search city (try Philadelphia)"
+                spellcheck="false">
+                <button><img src="assets/search.png" alt="search-icon" width="50"></button>
+            </div>
+            <div class="weather">
+                <img src = "assets/rain.png" class="weather-icon" width="200">
+                <h1 class="temp">0°F</h1>
+                <h2 class="city">Welcome to CoolWeather</h2>
+                <div class="details">
+
+                    <div class="col">
+                        <img src="assets/humidity.png" alt="humidity-icon">
+                        <div>
+                            <p class="humidity">0%</p>
+                            <p>Humidity</p>
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <img src="assets/wind.png" alt="wind-icon">
+                        <div>
+                            <p class="wind">0 mph</p>
+                            <p>Wind Speed</p>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="details2">
+                    <div class="col2">
+                        <img src="assets/sunrise.png" alt="sunrise-icon">
+                        <div>
+                            <p class="sunrise">0:00AM</p>
+                            <p><b>Sunrise</b></p>
+                        </div>
+                    </div>
+
+                    <div class="col2">
+                        <img src="assets/sunset.png" alt="sunset-icon">
+                        <div>
+                            <p class="sunset">0:00PM</p>
+                            <p><b>Sunset</b></p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="card2">
+            <div class="col2">
+                <img src="assets/world.png" alt="world-icon" width="100">
+            <div>
+                <p class="world2"><a href="https://www.thedp.com/"><b>Philadelphia News</b></a></p>
+                <p class="world2"><a href="https://penntoday.upenn.edu/"><b>Penn News</b></a></p>
+                <p class="world2"><a href="https://www.bbc.com/news/world"><b>World News</b></a></p>                
+            </div>
+        </div>
+
+        <script>
+            
+            const apiKey = "66e04c78d01ab673d7ae626ca77ee914";
+            const apiUrl = "https://api.openweathermap.org/data/2.5/weather?&units=imperial&q=";
+            
+            const searchBox = document.querySelector(".search input");
+            const searchBtn = document.querySelector(".search button");
+
+
+            async function checkWeather(city) {
+                const response = await fetch(apiUrl + city + `&appid=${apiKey}`);
+                var data = await response.json();
+                
+                console.log(data);
+
+                document.querySelector(".city").innerHTML = data.name;
+                document.querySelector(".temp").innerHTML = Math.round(data.main.temp) + "°F";
+                document.querySelector(".humidity").innerHTML = data.main.humidity + "%";
+                document.querySelector(".wind").innerHTML = data.wind.speed + " mph";
+                
+                document.querySelector(".sunrise").innerHTML = new Date(data.sys.sunrise * 1000);
+                document.querySelector(".sunset").innerHTML = new Date(data.sys.sunset * 1000);
+            }
+
+            searchBtn.addEventListener("click", ()=>{
+                checkWeather(searchBox.value);
+            })
+
+        </script>
+    </body>    
+</html>
